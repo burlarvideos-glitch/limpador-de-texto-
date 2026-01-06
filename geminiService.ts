@@ -1,9 +1,15 @@
 
 import { GoogleGenAI } from "@google/genai";
 
-export const smartCleanText = async (text: string, instructions: string): Promise<string> => {
-  // Criar instância aqui para garantir que pegue o process.env.API_KEY atualizado
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
+export const smartCleanText = async (text: string, instructions: string, manualApiKey?: string): Promise<string> => {
+  // Prioriza a chave manual salva no localStorage, depois a variável de ambiente
+  const apiKey = manualApiKey || process.env.API_KEY || '';
+  
+  if (!apiKey) {
+    throw new Error("Chave API não configurada. Por favor, insira sua chave no painel lateral.");
+  }
+
+  const ai = new GoogleGenAI({ apiKey });
   
   try {
     const response = await ai.models.generateContent({
@@ -19,11 +25,9 @@ export const smartCleanText = async (text: string, instructions: string): Promis
     return response.text?.trim() || text;
   } catch (error: any) {
     console.error("Erro no Gemini:", error);
-    if (error.message?.includes("Requested entity was not found")) {
-      // Caso a chave seja inválida ou o projeto não exista
-      (window as any).aistudio?.openSelectKey();
-      throw new Error("Erro de autenticação. Por favor, selecione uma API Key válida.");
+    if (error.status === 401 || error.status === 403) {
+      throw new Error("Chave API inválida ou sem permissão. Verifique sua chave do Google AI Studio.");
     }
-    throw new Error("Falha ao processar texto com IA. Verifique sua conexão ou API Key.");
+    throw new Error("Falha ao processar texto com IA. Verifique sua conexão ou a validade da chave.");
   }
 };

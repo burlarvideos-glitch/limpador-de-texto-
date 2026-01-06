@@ -13,18 +13,9 @@ const Header: React.FC = () => {
           </div>
           <div>
             <h1 className="text-2xl font-bold text-slate-900 leading-tight">Limpador de Texto Pro</h1>
-            <p className="text-sm text-slate-500 font-medium">Simplifique seu conteúdo instantaneamente</p>
+            <p className="text-sm text-slate-500 font-medium">Limpeza inteligente e remoção de caracteres</p>
           </div>
         </div>
-        <button 
-          onClick={() => (window as any).aistudio?.openSelectKey()}
-          className="flex items-center space-x-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-semibold rounded-lg transition-colors border border-slate-200"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-          </svg>
-          <span>Configurar API Key</span>
-        </button>
       </div>
     </header>
   );
